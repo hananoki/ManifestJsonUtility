@@ -1,0 +1,7 @@
+{
+  "dependencies": {},
+  "name": "com.hananoki.manifest-json-utility",
+  "displayName": "ManifestJsonUtility",
+  "version": "0.5.0-preview",
+  "description": "Edit manifest.json"
+}
