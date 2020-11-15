@@ -52,7 +52,7 @@ namespace Hananoki.ManifestJsonUtility {
 
 			i.m_data.Add( new Data {
 				name = item.name,
-				version = item.version,
+				version = item.value,
 				displayName = item.displayName,
 			} );
 			Save();

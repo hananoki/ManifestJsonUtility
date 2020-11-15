@@ -26,7 +26,7 @@ namespace Hananoki.ManifestJsonUtility {
 			var info = Utils.GetPackageInfo( item.name );
 			var it = new PackageItem {
 				name = item.name,
-				version = item.version,
+				value = item.value,
 				displayName = info.displayName,
 				id = GetID(),
 				icon = info.icon,
@@ -43,19 +43,19 @@ namespace Hananoki.ManifestJsonUtility {
 			InitID();
 			m_registerItems = new List<PackageItem>();
 
-			ManifestJson.Load();
+			ManifestJsonUtils.Load();
 
-			var dic = ManifestJson.GetDependencies();
+			var dic = ManifestJsonUtils.GetDependencies();
 			foreach( DictionaryEntry e in dic ) {
 				var info = Utils.GetPackageInfo( (string) e.Key );
 
 				var it = new PackageItem {
 					name = (string) e.Key,
-					version = (string) e.Value,
+					value = (string) e.Value,
 					displayName = info.displayName,
 					id = GetID(),
 					icon = info.icon,
-					//builtin = bbb,
+					version = info.version,
 				};
 				m_registerItems.Add( it );
 			}
@@ -98,7 +98,7 @@ namespace Hananoki.ManifestJsonUtility {
 				var item = FindItem( id );
 
 				m_registerItems.Remove( item );
-				ManifestJson.UninstallPackage( item.name );
+				ManifestJsonUtils.RemovePackage( item.name );
 
 				var undo = Utils.PopInstallItem( item );
 				if( undo != null ) {
@@ -124,6 +124,16 @@ namespace Hananoki.ManifestJsonUtility {
 			if( item.install ) {
 				GUI.DrawTexture( args.rowRect.AlignR( 16 ), EditorIcon.warning );
 			}
+
+			var lrc = args.rowRect;
+			var cont = EditorHelper.TempContent( $"{item.version}" );
+			var size = HEditorStyles.versionLabel.CalcSize( cont );
+			lrc = lrc.AlignR( size.x );
+			lrc.x -= 4;
+			lrc = lrc.AlignCenterH( 12 );
+			EditorGUI.DrawRect( lrc, SharedModule.SettingsEditor.i.versionBackColor );
+			HEditorStyles.versionLabel.normal.textColor = SharedModule.SettingsEditor.i.versionTextColor;
+			GUI.Label( lrc, $"{item.version}", HEditorStyles.versionLabel );
 		}
 
 

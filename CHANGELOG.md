@@ -1,5 +1,15 @@
 # ManifestJsonUtility
 
+## [0.5.1] - 2020-11-15
+- SharedModule v1.6.0 or later
+
+### Added
+- Added setting button
+- Add version label
+
+### Changed
+- Moved ManifestJsonUtils from SharedModule
+
 ## [0.5.0] - 2020-11-01
 - SharedModule v1.5.8 or later
 - First release

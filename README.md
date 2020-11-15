@@ -20,7 +20,7 @@
 ```
 
 ## Requirement
-![](https://img.shields.io/badge/SharedModule-v1.5.8%20or%20later-blue.svg)
+![](https://img.shields.io/badge/SharedModule-v1.6.0%20or%20later-blue.svg)
 
 ## Licence
 [MIT](https://github.com/hananoki/ManifestJsonUtility/blob/master/LICENSE.md)

@@ -26,7 +26,7 @@ namespace Hananoki.ManifestJsonUtility {
 			var info = Utils.GetPackageInfo( item.name );
 			var it = new PackageItem {
 				name = item.name,
-				version = item.version,
+				value = item.value,
 				displayName = info.displayName,
 				id = GetID(),
 				icon = info.icon,
@@ -45,22 +45,23 @@ namespace Hananoki.ManifestJsonUtility {
 
 			P.Load();
 
-			var dic = ManifestJson.GetDependencies();
+			var dic = ManifestJsonUtils.GetDependencies();
 			foreach( var p in P.i.m_data ) {
 				var info = Utils.GetPackageInfo( p.name );
 				var it = new PackageItem {
 					name = p.name,
-					version = p.version,
+					value = p.version,
 					displayName = p.displayName,
 					id = GetID(),
 					icon = info.icon,
+					version = p.version.StartsWith( "http" ) ? "URL" : p.version,
 				};
 				m_registerItems.Add( it );
 			}
 
-			ManifestJson.Load();
+			ManifestJsonUtils.Load();
 
-			var mfdic = ManifestJson.GetDependencies();
+			var mfdic = ManifestJsonUtils.GetDependencies();
 			E.Load();
 			foreach( var path in E.i.m_dirList ) {
 				if( path.IsEmpty() ) continue;
@@ -74,10 +75,11 @@ namespace Hananoki.ManifestJsonUtility {
 					var info = Utils.GetPackageInfo( packageJson.name );
 					var it = new PackageItem {
 						name = packageJson.name,
-						version = "file:" + fname.DirectoryName().Replace( '\\', '/' ),
+						value = "file:" + fname.DirectoryName().Replace( '\\', '/' ),
 						displayName = info.displayName,
 						id = GetID(),
 						icon = info.icon,
+						version = packageJson.version,
 						//localPackage = true,
 					};
 					m_registerItems.Add( it );
@@ -123,7 +125,7 @@ namespace Hananoki.ManifestJsonUtility {
 				var item = FindItem( id );
 
 				m_registerItems.Remove( item );
-				ManifestJson.InstallPackage( item.name, item.version );
+				ManifestJsonUtils.AddPackage( item.name, item.value );
 
 				var undo = Utils.PopUninstallList( item );
 				if( undo != null ) {
@@ -147,6 +149,16 @@ namespace Hananoki.ManifestJsonUtility {
 			if( item.uninstall ) {
 				GUI.DrawTexture( args.rowRect.AlignR( 16 ), EditorIcon.warning );
 			}
+
+			var lrc = args.rowRect;
+			var cont = EditorHelper.TempContent( $"{item.version}" );
+			var size = HEditorStyles.versionLabel.CalcSize( cont );
+			lrc = lrc.AlignR( size.x );
+			lrc.x -= 4;
+			lrc = lrc.AlignCenterH( 12 );
+			EditorGUI.DrawRect( lrc, SharedModule.SettingsEditor.i.versionBackColor );
+			HEditorStyles.versionLabel.normal.textColor = SharedModule.SettingsEditor.i.versionTextColor;
+			GUI.Label( lrc, $"{item.version}", HEditorStyles.versionLabel );
 		}
 	}
 }

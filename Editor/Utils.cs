@@ -73,7 +73,7 @@ namespace Hananoki.ManifestJsonUtility {
 			}
 			foreach( var p in s_removeItems ) {
 				// ローカルパッケージはディレクトリ指定の方で。
-				if( !p.version.StartsWith( "file:" ) ) {
+				if( !p.value.StartsWith( "file:" ) ) {
 					P.Add( p );
 				}
 			}
@@ -83,16 +83,16 @@ namespace Hananoki.ManifestJsonUtility {
 
 		public static PackageInfo GetPackageInfo( string packageName ) {
 			var info = new PackageInfo();
-			if( BuiltinPackage.GetDisplayName( out info.displayName, packageName ) ) {
+			if( BuiltinPackage.GetDisplayName( ref info, packageName ) ) {
 				info.icon = EditorIcon.icons_processed_prefab_icon_asset;
 				info.mode = PackageMode.Builtin;
 				return info;
 			}
-			if( PackageUser.GetDisplayName( out info.displayName, packageName ) ) {
+			if( PackageUser.GetDisplayName( ref info, packageName ) ) {
 				info.icon = EditorIcon.icons_processed_unityengine_gameobject_icon_asset;
 				return info;
 			}
-			if( PackageCache.GetDisplayName( out info.displayName, packageName ) ) {
+			if( PackageCache.GetDisplayName( ref info, packageName ) ) {
 				info.icon = EditorIcon.prematcube;
 				info.mode = PackageMode.InProject;
 				return info;

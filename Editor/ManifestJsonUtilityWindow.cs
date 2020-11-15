@@ -50,8 +50,16 @@ namespace Hananoki.ManifestJsonUtility {
 			HGUIScope.Horizontal( styp, _ );
 			void _() {
 				EditorGUILayout.LabelField( "manifest.json" );
+				//GUILayout.FlexibleSpace();
+				//GUILayout.Button( "aaa" );
 			}
-
+			//var a = GUILayoutUtility.GetLastRect();
+			//var rc = a;
+			//rc.x = ( a.x + a.width ) - 40;
+			//rc.width = 40;
+			//rc = rc.AlignCenterH( EditorGUIUtility.singleLineHeight );
+			//EditorGUI.DrawRect( rc, new Color( 0, 0, 1, 0.1f ) );
+			//GUI.Button( rc, "aaa", "Badge" );
 			GUILayout.Box( "", HEditorStyles.treeViweArea, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 
 			var dropRc = GUILayoutUtility.GetLastRect();
@@ -81,15 +89,21 @@ namespace Hananoki.ManifestJsonUtility {
 		void DrawToolBar() {
 			HGUIScope.Horizontal( EditorStyles.toolbar, _ );
 			void _() {
+				if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.settings ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
+#if ENABLE_HANANOKI_SETTINGS
+					SharedModule.SettingsWindow.OpenEditor( Package.name );
+#else
+						SettingsEditorWindow.Open();
+#endif
+				}
 				if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.refresh ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
 					Refresh();
 				}
 				if( GUILayout.Button( EditorHelper.TempContent( SS._Apply ), EditorStyles.toolbarButton ) ) {
 					Utils.ApplyModifyList();
-					ManifestJson.Save();
+					ManifestJsonUtils.Save();
 				}
 				GUILayout.FlexibleSpace();
-
 			}
 		}
 

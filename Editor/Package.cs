@@ -5,7 +5,7 @@ namespace Hananoki.ManifestJsonUtility {
   public static class Package {
     public const string name = "ManifestJsonUtility";
     public const string editorPrefName = "Hananoki.ManifestJsonUtility";
-    public const string version = "0.5.0-preview";
+    public const string version = "0.5.1-preview";
   }
   
 #if UNITY_EDITOR
