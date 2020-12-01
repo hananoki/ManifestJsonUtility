@@ -47,12 +47,11 @@ namespace Hananoki.ManifestJsonUtility {
 			var styp = new GUIStyle( "Toolbar" );
 			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
 
-			HGUIScope.Horizontal( styp, _ );
-			void _() {
-				EditorGUILayout.LabelField( "manifest.json" );
-				//GUILayout.FlexibleSpace();
-				//GUILayout.Button( "aaa" );
-			}
+			HGUIScope.Horizontal();
+			EditorGUILayout.LabelField( "manifest.json" );
+			//GUILayout.FlexibleSpace();
+			//GUILayout.Button( "aaa" );
+			HGUIScope.End();
 			//var a = GUILayoutUtility.GetLastRect();
 			//var rc = a;
 			//rc.x = ( a.x + a.width ) - 40;
@@ -72,43 +71,41 @@ namespace Hananoki.ManifestJsonUtility {
 		void DrawRightPane() {
 			var styp = new GUIStyle( "Toolbar" );
 			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
-			HGUIScope.Horizontal( styp, _ );
-			void _() {
-				EditorGUILayout.LabelField( S._Installablepackages );
-			}
+			HGUIScope.Horizontal( styp );
+			EditorGUILayout.LabelField( S._Installablepackages );
+			HGUIScope.End();
 
 			GUILayout.Box( "", HEditorStyles.treeViweArea, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 
 			var dropRc = GUILayoutUtility.GetLastRect();
-			;
+
 			m_treeViewR.OnGUI( dropRc.AlignR( dropRc.width - 1 ) );
 		}
 
 
 
 		void DrawToolBar() {
-			HGUIScope.Horizontal( EditorStyles.toolbar, _ );
-			void _() {
-				if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.settings ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
+			HGUIScope.Horizontal( EditorStyles.toolbar );
+			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.settings ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
 #if ENABLE_HANANOKI_SETTINGS
-					SharedModule.SettingsWindow.OpenEditor( Package.name );
+				SharedModule.SettingsWindow.OpenEditor( Package.name );
 #else
 						SettingsEditorWindow.Open();
 #endif
-				}
-				if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.refresh ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
-					Refresh();
-				}
-				if( GUILayout.Button( EditorHelper.TempContent( SS._Apply ), EditorStyles.toolbarButton ) ) {
-					Utils.ApplyModifyList();
-					ManifestJsonUtils.Save();
-				}
-				GUILayout.FlexibleSpace();
 			}
+			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.refresh ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
+				Refresh();
+			}
+			if( GUILayout.Button( EditorHelper.TempContent( SS._Apply ), EditorStyles.toolbarButton ) ) {
+				Utils.ApplyModifyList();
+				ManifestJsonUtils.Save();
+			}
+			GUILayout.FlexibleSpace();
+			HGUIScope.End();
 		}
 
 
-		void OnGUI() {
+		public override void OnDefaultGUI() {
 			using( new IsCompilingDisableScope() ) {
 				DrawToolBar();
 

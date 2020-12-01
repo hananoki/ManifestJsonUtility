@@ -26,12 +26,6 @@ namespace Hananoki.ManifestJsonUtility {
 			w.gui = DrawGUI;
 		}
 
-		static void RepaintProjectWindow() {
-			//if( P.i.extendProjectBrowser ) {
-			EditorApplication.RepaintProjectWindow();
-			//}
-		}
-
 		static void DrawCommandTable( ReorderableList r ) {
 			EditorGUI.BeginChangeCheck();
 			r.DoLayoutList();

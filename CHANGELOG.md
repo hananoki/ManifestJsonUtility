@@ -1,5 +1,8 @@
 # ManifestJsonUtility
 
+## [0.5.2] - 2020-12-02
+- SharedModule v1.7.0 or later
+
 ## [0.5.1] - 2020-11-15
 - SharedModule v1.6.0 or later
 

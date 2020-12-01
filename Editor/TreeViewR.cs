@@ -97,8 +97,7 @@ namespace Hananoki.ManifestJsonUtility {
 
 
 
-		protected override void ContextClickedItem( int id ) {
-			base.ContextClickedItem( id );
+		protected override void OnContextClickedItem( int id ) {
 			var ev = Event.current;
 			var pos = ev.mousePosition;
 

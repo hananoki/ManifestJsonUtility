@@ -1,26 +1,23 @@
-﻿using System.Collections.Generic;
-using Hananoki;
+﻿
+using System.Collections.Generic;
+using Hananoki.Extensions;
 
-#if UNITY_EDITOR
-#endif
+namespace Hananoki.ManifestJsonUtility {
+	public class PackageJson {
 
+		Dictionary<string, object> m_data;
 
-using System.IO;
+		public static PackageJson Load( string filepath ) {
 
-public class PackageJson {
+			var a = EditorJson.Deserialize( filepath.ReadAllText() ) as Dictionary<string, object>;
 
-	Dictionary<string, object> m_data;
+			return new PackageJson { m_data = a, };
+		}
 
-	public static PackageJson Load( string filepath ) {
-
-		var a = UnityEditorJson.Deserialize( File.ReadAllText( filepath ) ) as Dictionary<string, object>;
-
-		return new PackageJson { m_data = a, };
+		public string name => (string) m_data[ "name" ];
+		public string displayName => (string) m_data[ "displayName" ];
+		public string version => (string) m_data[ "version" ];
+		public string unity => (string) m_data[ "unity" ];
+		public string description => (string) m_data[ "description" ];
 	}
-
-	public string name => (string) m_data[ "name" ];
-	public string displayName => (string) m_data[ "displayName" ];
-	public string version => (string) m_data[ "version" ];
-	public string unity => (string) m_data[ "unity" ];
-	public string description => (string) m_data[ "description" ];
 }
