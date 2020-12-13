@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
-using Hananoki.Extensions;
+using HananokiEditor.Extensions;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 	public class PackageJson {
 
 		Dictionary<string, object> m_data;

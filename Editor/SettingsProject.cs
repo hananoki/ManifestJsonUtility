@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-using P = Hananoki.ManifestJsonUtility.SettingsProject;
+using P = HananokiEditor.ManifestJsonUtility.SettingsProject;
 
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 	[Serializable]
 	public class SettingsProject {
 
-		static string projectSettingsPath => $"{Environment.CurrentDirectory}/ProjectSettings/LPM.json";
+		static string projectSettingsPath => $"{Environment.CurrentDirectory}/ProjectSettings/ManifestJsonUtility.json";
 
 		[System.Serializable]
 		public class Data {

@@ -1,13 +1,14 @@
 ﻿#pragma warning disable 649
+#define ENABLE_HANANOKI_SETTINGS
 
-using Hananoki.Extensions;
-using Hananoki.SharedModule;
+using HananokiEditor.Extensions;
+using HananokiEditor.SharedModule;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using P = Hananoki.ManifestJsonUtility.SettingsProject;
+using P = HananokiEditor.ManifestJsonUtility.SettingsProject;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 	public class SettingsProjectWindow : HSettingsEditorWindow {
 
 		static bool s_changed;
@@ -113,13 +114,12 @@ namespace Hananoki.ManifestJsonUtility {
 
 
 #if ENABLE_HANANOKI_SETTINGS
-	[SettingsClass]
 	public class SettingsProjectEvent {
-		[SettingsMethod]
+		[HananokiSettingsRegister]
 		public static SettingsItem RegisterSettings() {
 			return new SettingsItem() {
 				mode = 1,
-				displayName = Package.name,
+				displayName = Package.nameNicify,
 				version = Package.version,
 				gui = SettingsProjectWindow.DrawGUI,
 			};

@@ -1,11 +1,11 @@
 ﻿
-using Hananoki.Extensions;
+using HananokiEditor.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-using SS = Hananoki.SharedModule.S;
+using SS = HananokiEditor.SharedModule.S;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 
 
 	public class ManifestJsonUtilityWindow : HEditorWindow {
@@ -14,9 +14,9 @@ namespace Hananoki.ManifestJsonUtility {
 		TreeViewR m_treeViewR;
 
 
-		[MenuItem( "Window/Hananoki/ManifestJsonUtility" )]
+		[MenuItem( "Window/Hananoki/" + Package.nameNicify, false, 130 )]
 		static void Open() {
-			GetWindow<ManifestJsonUtilityWindow>( "ManifestJsonUtility" );
+			GetWindow<ManifestJsonUtilityWindow>( );
 		}
 
 
@@ -38,6 +38,7 @@ namespace Hananoki.ManifestJsonUtility {
 
 
 		void OnEnable() {
+			SetTitle( Package.nameNicify, EditorIcon.icons_processed_js_script_icon_asset );
 			Refresh();
 
 		}
@@ -47,11 +48,11 @@ namespace Hananoki.ManifestJsonUtility {
 			var styp = new GUIStyle( "Toolbar" );
 			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
 
-			HGUIScope.Horizontal();
+			ScopeHorizontal.Begin();
 			EditorGUILayout.LabelField( "manifest.json" );
 			//GUILayout.FlexibleSpace();
 			//GUILayout.Button( "aaa" );
-			HGUIScope.End();
+			ScopeHorizontal.End();
 			//var a = GUILayoutUtility.GetLastRect();
 			//var rc = a;
 			//rc.x = ( a.x + a.width ) - 40;
@@ -71,9 +72,9 @@ namespace Hananoki.ManifestJsonUtility {
 		void DrawRightPane() {
 			var styp = new GUIStyle( "Toolbar" );
 			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
-			HGUIScope.Horizontal( styp );
+			ScopeHorizontal.Begin( styp );
 			EditorGUILayout.LabelField( S._Installablepackages );
-			HGUIScope.End();
+			ScopeHorizontal.End();
 
 			GUILayout.Box( "", HEditorStyles.treeViweArea, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 
@@ -85,13 +86,13 @@ namespace Hananoki.ManifestJsonUtility {
 
 
 		void DrawToolBar() {
-			HGUIScope.Horizontal( EditorStyles.toolbar );
+			ScopeHorizontal.Begin( EditorStyles.toolbar );
 			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.settings ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
-#if ENABLE_HANANOKI_SETTINGS
-				SharedModule.SettingsWindow.OpenEditor( Package.name );
-#else
-						SettingsEditorWindow.Open();
-#endif
+//#if ENABLE_HANANOKI_SETTINGS
+				SharedModule.SettingsWindow.OpenEditor( Package.nameNicify );
+//#else
+//				SettingsEditorWindow.Open();
+//#endif
 			}
 			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.refresh ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
 				Refresh();
@@ -101,7 +102,7 @@ namespace Hananoki.ManifestJsonUtility {
 				ManifestJsonUtils.Save();
 			}
 			GUILayout.FlexibleSpace();
-			HGUIScope.End();
+			ScopeHorizontal.End();
 		}
 
 

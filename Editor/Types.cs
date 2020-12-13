@@ -2,7 +2,7 @@
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 
 	public class PackageInfo {
 		public string displayName;

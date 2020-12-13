@@ -1,10 +1,11 @@
 ﻿
 using UnityEditor;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
   public static class Package {
     public const string name = "ManifestJsonUtility";
+    public const string nameNicify = "Manifest Json Utility";
     public const string editorPrefName = "Hananoki.ManifestJsonUtility";
-    public const string version = "0.5.2-preview";
+    public const string version = "0.5.3-preview";
   }
 }

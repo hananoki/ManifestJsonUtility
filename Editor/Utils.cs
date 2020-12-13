@@ -1,9 +1,9 @@
 ﻿
 using System.Collections.Generic;
 
-using P = Hananoki.ManifestJsonUtility.SettingsProject;
+using P = HananokiEditor.ManifestJsonUtility.SettingsProject;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 
 	public static class Utils {
 

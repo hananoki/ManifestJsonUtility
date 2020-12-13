@@ -1,5 +1,5 @@
 ﻿
-using Hananoki.Extensions;
+using HananokiEditor.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-using SS = Hananoki.SharedModule.S;
+using SS = HananokiEditor.SharedModule.S;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 
 	public class TreeViewL : HTreeView<PackageItem> {
 

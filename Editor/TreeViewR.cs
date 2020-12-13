@@ -1,16 +1,17 @@
 ﻿
-using Hananoki.Extensions;
+using HananokiEditor.Extensions;
+using HananokiRuntime.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-using E = Hananoki.ManifestJsonUtility.SettingsEditor;
-using P = Hananoki.ManifestJsonUtility.SettingsProject;
-using SS = Hananoki.SharedModule.S;
+using E = HananokiEditor.ManifestJsonUtility.SettingsEditor;
+using P = HananokiEditor.ManifestJsonUtility.SettingsProject;
+using SS = HananokiEditor.SharedModule.S;
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 
 	public class TreeViewR : HTreeView<PackageItem> {
 

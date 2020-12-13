@@ -1,14 +1,14 @@
 ﻿
+using HananokiRuntime.Extensions;
 using System;
 using System.Collections;
 using UnityEditor;
-using Hananoki.Extensions;
 using UnityEngine;
 
-using E = Hananoki.ManifestJsonUtility.SettingsEditor;
+using E = HananokiEditor.ManifestJsonUtility.SettingsEditor;
 
 
-namespace Hananoki.ManifestJsonUtility {
+namespace HananokiEditor.ManifestJsonUtility {
 	public static class BuiltinPackage {
 		public static System.Collections.Hashtable dic;
 

@@ -1,4 +1,13 @@
-# ManifestJsonUtility
+# Manifest Json Utility
+
+## [0.5.3] - 2020-12-13
+- SharedModule v1.7.3 or later
+
+### Changed
+- Changed namespace
+
+### Fixed
+- LPM.json >> ManifestJsonUtility.json
 
 ## [0.5.2] - 2020-12-02
 - SharedModule v1.7.0 or later

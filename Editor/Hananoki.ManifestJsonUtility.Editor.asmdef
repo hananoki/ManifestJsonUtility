@@ -1,19 +1,21 @@
 {
-    "name": "Hananoki.ManifestJsonUtility.Editor",
-    "references": [
-        "Hananoki.SharedModule.Runtime",
-        "Hananoki.SharedModule.RuntimeEditor",
-        "Hananoki.UnityReflection.Editor"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": false,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Hananoki.ManifestJsonUtility.Editor",
+  "references": [
+    "Hananoki.EditorIcon.Editor",
+    "Hananoki.SharedModule.Runtime",
+    "Hananoki.SharedModule.RuntimeEditor",
+    "Hananoki.UnityReflection.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "references.backup": []
 }
