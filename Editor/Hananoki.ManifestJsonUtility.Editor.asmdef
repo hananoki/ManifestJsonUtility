@@ -1,5 +1,6 @@
 {
   "name": "Hananoki.ManifestJsonUtility.Editor",
+  "rootNamespace": "",
   "references": [
     "Hananoki.EditorIcon.Editor",
     "Hananoki.SharedModule.Runtime",

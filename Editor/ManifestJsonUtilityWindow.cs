@@ -38,7 +38,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 		void OnEnable() {
-			SetTitle( Package.nameNicify, EditorIcon.icons_processed_js_script_icon_asset );
+			SetTitle( Package.nameNicify );
 			Refresh();
 
 		}

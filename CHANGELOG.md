@@ -1,5 +1,11 @@
 # Manifest Json Utility
 
+## [0.5.4] - 2021-04-03
+- SharedModule v1.8.0 or later
+
+### Fixed
+- Fixed a bug that the icon does not exist in 2019.2 and earlier versions
+
 ## [0.5.3] - 2020-12-13
 - SharedModule v1.7.3 or later
 
