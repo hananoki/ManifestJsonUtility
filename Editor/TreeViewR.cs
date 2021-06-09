@@ -13,19 +13,22 @@ using SS = HananokiEditor.SharedModule.S;
 
 namespace HananokiEditor.ManifestJsonUtility {
 
-	public class TreeViewR : HTreeView<PackageItem> {
+	public class TreeViewR : HTreeView<PackageTreeItem> {
 
 		public static TreeViewR instance;
 
+
+		/////////////////////////////////////////
 		public TreeViewR() : base( new TreeViewState() ) {
 			showAlternatingRowBackgrounds = true;
 			instance = this;
 		}
 
 
-		public void AddUninstallItem( PackageItem item, bool undoFlag = false ) {
+		/////////////////////////////////////////
+		public void AddUninstallItem( PackageTreeItem item, bool undoFlag = false ) {
 			var info = Utils.GetPackageInfo( item.name );
-			var it = new PackageItem {
+			var it = new PackageTreeItem {
 				name = item.name,
 				value = item.value,
 				displayName = info.displayName,
@@ -34,22 +37,16 @@ namespace HananokiEditor.ManifestJsonUtility {
 				uninstall = !undoFlag,
 			};
 
-			m_registerItems.Add( it );
+			m_root.AddChild( it );
 			ReloadAndSorting();
 		}
 
 
-		public void RegisterFiles() {
-
-			InitID();
-			m_registerItems = new List<PackageItem>();
-
-			P.Load();
-
-			var dic = ManifestJsonUtils.GetDependencies();
+		/////////////////////////////////////////
+		public void LoadDefault() {
 			foreach( var p in P.i.m_data ) {
 				var info = Utils.GetPackageInfo( p.name );
-				var it = new PackageItem {
+				var it = new PackageTreeItem {
 					name = p.name,
 					value = p.version,
 					displayName = p.displayName,
@@ -57,7 +54,8 @@ namespace HananokiEditor.ManifestJsonUtility {
 					icon = info.icon,
 					version = p.version.StartsWith( "http" ) ? "URL" : p.version,
 				};
-				m_registerItems.Add( it );
+				m_root.AddChild( it );
+				//Debug.Log( it.displayName );
 			}
 
 			ManifestJsonUtils.Load();
@@ -74,7 +72,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 					if( mfdic.Contains( packageJson.name ) ) continue;
 
 					var info = Utils.GetPackageInfo( packageJson.name );
-					var it = new PackageItem {
+					var it = new PackageTreeItem {
 						name = packageJson.name,
 						value = "file:" + fname.DirectoryName().Replace( '\\', '/' ),
 						displayName = info.displayName,
@@ -83,21 +81,68 @@ namespace HananokiEditor.ManifestJsonUtility {
 						version = packageJson.version,
 						//localPackage = true,
 					};
-					m_registerItems.Add( it );
+					m_root.AddChild( it );
 				}
 			}
+		}
 
-			m_registerItems = m_registerItems.Distinct( x => x.name ).ToList();
+
+
+		/////////////////////////////////////////
+		public void AddUnityPackages() {
+			ManifestJsonUtils.Load();
+			var mfdic = ManifestJsonUtils.GetDependencies();
+
+			var path = "6fbeb6e9c013add41b6670a9d288955b".ToAssetPath();
+			foreach( var s in fs.ReadAllText( path ).Split( '\n' ) ) {
+				if( s.IsEmpty() ) continue;
+
+				var ss = s.Split( '\t' );
+				var info = Utils.GetPackageInfo( ss[ 0 ] );
+
+				m_root.AddChild( new PackageTreeItem {
+					name = ss[ 0 ],
+					value = ss[ 1 ],
+					displayName = ss[ 0 ],
+					id = GetID(),
+					icon = info.icon,
+					version = mfdic.Contains( ss[ 1 ] ) ? "インストール済" : ss[ 1 ],
+					installType = InstallType.データベースに直インストール,
+				} );
+			}
+			m_root.children = m_root.children.OrderBy( x => x ).ToList();
+		}
+
+
+
+		/////////////////////////////////////////
+		public void RegisterFiles( InstallType mode ) {
+			P.Load();
+
+			InitID();
+			MakeRoot();
+			if( mode == InstallType.通常 ) LoadDefault();
+			else AddUnityPackages();
+			//m_registerItems = m_registerItems.Distinct( x => x.name ).ToList();
 			ReloadAndSorting();
 		}
 
 
+		/////////////////////////////////////////
 		public void ReloadAndSorting() {
-			Reload();
+			ReloadRoot();
 		}
 
 
+		/////////////////////////////////////////
+		new public bool HasSelection() {
+			if( !base.HasSelection() ) return false;
+			if( currentItem.install ) return false;
+			return true;
+		}
 
+
+		/////////////////////////////////////////
 		protected override void OnContextClickedItem( int id ) {
 			var ev = Event.current;
 			var pos = ev.mousePosition;
@@ -105,28 +150,32 @@ namespace HananokiEditor.ManifestJsonUtility {
 			var m = new GenericMenu();
 
 			m.AddItem( SS._Install, () => {
-				InstallSelectionPackage();
+				//選択パッケージをインストール指定する();
+				PackageDatabaseUtils.InstallFromUrl( ToItem( id ).value );
 			} );
 
-			m.DropDown( new Rect( pos.x, pos.y, 1, 1 ) );
-			Event.current.Use();
+			m.DropDownAtMousePosition();
 		}
 
 
-		public void InstallSelectionPackage() {
-			InstallSelectionPackage( GetSelection() );
+
+		/////////////////////////////////////////
+		public void 選択パッケージをインストール指定する() {
+			選択パッケージをインストール指定する( GetSelection() );
 		}
 
 
-		void InstallSelectionPackage( object context ) {
 
-			var ids = (IList<int>) context;
+		/////////////////////////////////////////
+		void 選択パッケージをインストール指定する( IList<int> ids ) {
+
 			foreach( var id in ids ) {
 				var item = FindItem( id );
 
-				m_registerItems.Remove( item );
-				ManifestJsonUtils.AddPackage( item.name, item.value );
-
+				m_root.children.Remove( item );
+				if( item.installType == InstallType.通常 ) {
+					ManifestJsonUtils.AddPackage( item.name, item.value );
+				}
 				var undo = Utils.PopUninstallList( item );
 				if( undo != null ) {
 					TreeViewL.instance.AddInstallItem( undo, true );
@@ -141,10 +190,14 @@ namespace HananokiEditor.ManifestJsonUtility {
 		}
 
 
+
+		/////////////////////////////////////////
 		protected override void OnRowGUI( RowGUIArgs args ) {
-			var item = (PackageItem) args.item;
-			var labelStyle = /*args.selected ? EditorStyles.whiteLabel :*/ EditorStyles.label;
-			EditorGUI.LabelField( args.rowRect, EditorHelper.TempContent( $"{item.displayName}", item.icon ), labelStyle );
+			var item = (PackageTreeItem) args.item;
+
+			ScopeDisable.Begin( item.install );
+			Label( args, args.rowRect, $"{item.displayName}", item.icon );
+			ScopeDisable.End();
 
 			if( item.uninstall ) {
 				GUI.DrawTexture( args.rowRect.AlignR( 16 ), EditorIcon.warning );

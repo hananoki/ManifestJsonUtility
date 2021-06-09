@@ -1,5 +1,12 @@
 # Manifest Json Utility
 
+## [0.6.0] - 2021-06-09
+- `SharedModule` v1.9.0 or later
+
+### Added
+- Added the ability to install packages that are not visible in UPM
+- Linkage function with `Custom Project Browser`
+
 ## [0.5.4] - 2021-04-03
 - SharedModule v1.8.0 or later
 

@@ -1,0 +1,156 @@
+
+
+2D Animation	com.unity.2d.animation
+2D Common	com.unity.2d.common
+2D Entities	com.unity.2d.entities
+2D IK	com.unity.2d.ik
+2D Path	com.unity.2d.path
+2D Pixel Perfect	com.unity.2d.pixel-perfect
+2D PSD Importer	com.unity.2d.psdimporter
+2D SpriteShape	com.unity.2d.spriteshape
+
+Adaptive Performance	com.unity.adaptiveperformance
+Adaptive Performance Samsung Android	com.unity.adaptiveperformance.samsung.android
+Addressables	com.unity.addressables
+Advertisement	com.unity.ads
+Alembic	com.unity.formats.alembic
+Analytics Library	com.unity.analytics
+Android Logcat	com.unity.mobile.android-logcat
+AR Foundation	com.unity.xr.arfoundation
+AR Subsystems	com.unity.xr.arsubsystems
+ARCore XR Plugin	com.unity.xr.arcore
+ARKit Face Tracking	com.unity.xr.arkit-face-tracking
+ARKit XR Plugin	com.unity.xr.arkit
+Asset Bundle Browser	com.unity.assetbundlebrowser
+AI Planner	com.unity.ai.planner
+Animation Rigging	com.unity.animation.rigging
+Asset Graph	com.unity.assetgraph
+Animation C# Jobs Samples	com.unity.animation.cs-jobs-samples
+
+Barracuda	com.unity.barracuda
+Burst	com.unity.burst
+Build Report Inspector	com.unity.build-report-inspector
+Build	com.unity.build
+
+Cinemachine	com.unity.cinemachine
+Core RP Library	com.unity.render-pipelines.core
+Custom NUnit	com.unity.ext.nunit
+Code Coverage	com.unity.testtools.codecoverage
+Collections	com.unity.collections
+
+Device Simulator	com.unity.device-simulator
+DOTS Editor	com.unity.dots.editor
+
+Editor Coroutines	com.unity.editorcoroutines
+Entities	com.unity.entities
+
+FBX Exporter	com.unity.formats.fbx
+Film and TV Toolbox	com.unity.film-tv.toolbox
+
+Google Resonance Audio	com.unity.google.resonance.audio
+Google VR Android	com.unity.xr.googlevr.android
+Google VR iOS	com.unity.xr.googlevr.ios
+Game Foundation	com.unity.game.foundation
+Graph Tools Foundation	com.unity.graphtools.foundation
+
+High Definition RP	com.unity.render-pipelines.high-definition
+High Definition RP Config	com.unity.render-pipelines.high-definition-config
+Havok Physics for Unity	com.havok.physics
+Hybrid Renderer	com.unity.rendering.hybrid
+
+In App Purchasing	com.unity.purchasing
+Input System	com.unity.inputsystem
+Immediate Window	com.unity.immediate-window
+
+Jobs	com.unity.jobs
+
+Kinematica	com.unity.kinematica
+
+Lightweight RP	com.unity.render-pipelines.lightweight
+Localization	com.unity.localization
+
+Magic Leap XR Plugin	com.unity.xr.magicleap
+Mathematics	com.unity.mathematics
+Mobile Notifications	com.unity.mobile.notifications
+Multiplayer HLAPI	com.unity.multiplayer-hlapi
+Memory Profiler	com.unity.memoryprofiler
+MeshSync	com.unity.meshsync
+ML Agents	com.unity.ml-agents
+MockHMD XR Plugin	com.unity.xr.mock-hmd
+Moq	nuget.moq
+
+Oculus Android	com.unity.xr.oculus.android
+Oculus Desktop	com.unity.xr.oculus.standalone
+Oculus XR Plugin	com.unity.xr.oculus
+OpenVR Desktop	com.unity.xr.openvr.standalone
+
+Performance testing API	com.unity.test-framework.performance
+Polybrush	com.unity.polybrush
+Post Processing	com.unity.postprocessing
+ProBuilder	com.unity.probuilder
+Profile Analyzer	com.unity.performance.profile-analyzer
+Package Development	com.unity.upm.develop
+Package Validation Suite	com.unity.package-validation-suite
+Platforms	com.unity.platforms
+Platforms Android	com.unity.platforms.android
+Platforms Linux	com.unity.platforms.linux
+Platforms macOS	com.unity.platforms.macos
+Platforms Web	com.unity.platforms.web
+Platforms Windows	com.unity.platforms.windows
+PlayableGraph Visualizer	com.unity.playablegraph-visualizer
+ProGrids	com.unity.progrids
+Project Tiny Full	com.unity.tiny.all
+Property API	com.unity.properties
+Properties UI	com.unity.properties.ui
+Performance testing API	com.unity.test-framework.performance
+
+Quick Search	com.unity.quicksearch
+
+Remote Config	com.unity.remote-config
+Resource Manager	com.unity.resourcemanager
+
+Scriptable Build Pipeline	com.unity.scriptablebuildpipeline
+Searcher	com.unity.searcher
+Settings Manager	com.unity.settings-manager
+Shader Graph	com.unity.shadergraph
+Subsystem Registration	com.unity.subsystemregistration
+Streaming Image Sequence	com.unity.streaming-image-sequence
+Serialization	com.unity.serialization
+SharpZipLib	com.unity.sharp-zip-lib
+
+Test Framework	com.unity.test-framework
+TextMeshPro	com.unity.textmeshpro
+Timeline	com.unity.timeline
+Terrain Tools	com.unity.terrain-tools
+
+Unity Collaborate	com.unity.collab-proxy
+Universal RP	com.unity.render-pipelines.universal
+UI Builder	com.unity.ui.builder
+Unity AOV Recorder	com.unity.aovrecorder
+Unity Distribution Portal	com.unity.purchasing.udp
+Unity NetCode	com.unity.netcode
+Unity Physics	com.unity.physics
+Unity Recorder	com.unity.recorder
+Unity Reflect	com.unity.reflect
+Unity Render Streaming	com.unity.renderstreaming
+Unity Simulation Client	com.unity.simulation.client
+Unity Simulation Core	com.unity.simulation.core
+Unity Transport	com.unity.transport
+Unity User Reporting	com.unity.cloud.userreporting
+USD	com.unity.formats.usd
+UI Toolkit	com.unity.ui
+
+Vector Graphics	com.unity.vectorgraphics
+Visual Effect Graph	com.unity.visualeffectgraph
+Vuforia Engine AR	com.ptc.vuforia.engine
+
+WebGL Publisher	com.unity.connect.share
+Windows Mixed Reality	com.unity.xr.windowsmr.metro
+Windows XR Plugin	com.unity.xr.windowsmr
+WebRTC	com.unity.webrtc
+
+XR Interaction Subsystems	com.unity.xr.interactionsubsystems
+XR Legacy Input Helpers	com.unity.xr.legacyinputhelpers
+XR Plugin Management	com.unity.xr.management
+Xiaomi SDK	com.unity.xiaomi
+XR Interaction Toolkit	com.unity.xr.interaction.toolkit

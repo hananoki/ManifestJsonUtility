@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-
 using P = HananokiEditor.ManifestJsonUtility.SettingsProject;
 
 
@@ -11,7 +9,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 	[Serializable]
 	public class SettingsProject {
 
-		static string projectSettingsPath => $"{Environment.CurrentDirectory}/ProjectSettings/ManifestJsonUtility.json";
+		static string projectSettingsPath => $"{fs.currentDirectory}/ProjectSettings/ManifestJsonUtility.json";
 
 		[System.Serializable]
 		public class Data {
@@ -31,22 +29,29 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 		public List<Data> m_data;
 
+
+
+		/////////////////////////////////////////
 		SettingsProject() {
 			m_data = new List<Data>();
 		}
 
 
+
+		/////////////////////////////////////////
 		public static P CreateNew() {
 			return new P();
 		}
 
 
-		public static void Add( PackageItem item ) {
+
+		/////////////////////////////////////////
+		public static void Add( PackageTreeItem item ) {
 			Load();
 
 			var it = i.m_data.Find( x => x.name == item.name );
 			if( it != null ) {
-				Debug.LogWarning( "There is a package with the same name." );
+				Debug.LogWarning( S._Thereisapackagewiththesamename_ );
 				return;
 			}
 
@@ -58,7 +63,10 @@ namespace HananokiEditor.ManifestJsonUtility {
 			Save();
 		}
 
-		public static void Remove( PackageItem item ) {
+
+
+		/////////////////////////////////////////
+		public static void Remove( PackageTreeItem item ) {
 			Load();
 			var it = i.m_data.Find( x => x.name == item.name );
 			if( it != null ) {
@@ -67,6 +75,8 @@ namespace HananokiEditor.ManifestJsonUtility {
 			}
 		}
 
+
+		/////////////////////////////////////////
 		public static void Load() {
 			if( i != null ) return;
 
@@ -78,10 +88,10 @@ namespace HananokiEditor.ManifestJsonUtility {
 			}
 		}
 
+
+		/////////////////////////////////////////
 		public static void Save() {
 			File.WriteAllText( projectSettingsPath, JsonUtility.ToJson( i, true ) );
 		}
 	}
-
-
 }

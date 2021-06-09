@@ -11,10 +11,12 @@ using SS = HananokiEditor.SharedModule.S;
 
 namespace HananokiEditor.ManifestJsonUtility {
 
-	public class TreeViewL : HTreeView<PackageItem> {
+	public class TreeViewL : HTreeView<PackageTreeItem> {
 
 		public static TreeViewL instance;
 
+
+		/////////////////////////////////////////
 		public TreeViewL() : base( new TreeViewState() ) {
 			showAlternatingRowBackgrounds = true;
 			instance = this;
@@ -22,9 +24,10 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 
-		public void AddInstallItem( PackageItem item, bool undoFlag = false ) {
+		/////////////////////////////////////////
+		public void AddInstallItem( PackageTreeItem item, bool undoFlag = false ) {
 			var info = Utils.GetPackageInfo( item.name );
-			var it = new PackageItem {
+			var it = new PackageTreeItem {
 				name = item.name,
 				value = item.value,
 				displayName = info.displayName,
@@ -32,16 +35,16 @@ namespace HananokiEditor.ManifestJsonUtility {
 				icon = info.icon,
 				install = !undoFlag,
 			};
-			m_registerItems.Add( it );
+			m_root.children.Add( it );
 			ReloadAndSorting();
 		}
 
 
-
+		/////////////////////////////////////////
 		public void RegisterFiles() {
 
 			InitID();
-			m_registerItems = new List<PackageItem>();
+			MakeRoot();
 
 			ManifestJsonUtils.Load();
 
@@ -49,7 +52,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 			foreach( DictionaryEntry e in dic ) {
 				var info = Utils.GetPackageInfo( (string) e.Key );
 
-				var it = new PackageItem {
+				var it = new PackageTreeItem {
 					name = (string) e.Key,
 					value = (string) e.Value,
 					displayName = info.displayName,
@@ -57,21 +60,23 @@ namespace HananokiEditor.ManifestJsonUtility {
 					icon = info.icon,
 					version = info.version,
 				};
-				m_registerItems.Add( it );
+				m_root.AddChild( it );
 			}
 
-			m_registerItems = m_registerItems.OrderBy( x => x.name ).ToList();
+			m_root.children = m_root.children.OrderBy( x => ( (PackageTreeItem) x ).name ).ToList();
 
 			ReloadAndSorting();
 		}
 
 
+		/////////////////////////////////////////
 		public void ReloadAndSorting() {
-			Reload();
+			ReloadRoot();
 		}
 
 
 
+		/////////////////////////////////////////
 		protected override void OnContextClickedItem( int id ) {
 			var ev = Event.current;
 			var pos = ev.mousePosition;
@@ -79,24 +84,28 @@ namespace HananokiEditor.ManifestJsonUtility {
 			var m = new GenericMenu();
 
 			m.AddItem( SS._Uninstall, () => {
-				UninstallSelectionPackage();
+				選択パッケージをアンインストール指定する();
 			} );
 
-			m.DropDown( new Rect( pos.x, pos.y, 1, 1 ) );
-			Event.current.Use();
+			m.DropDownAtMousePosition();
 		}
 
 
-		public void UninstallSelectionPackage() {
-			UninstallSelectionPackage( GetSelection() );
+
+		/////////////////////////////////////////
+		public void 選択パッケージをアンインストール指定する() {
+			選択パッケージをアンインストール指定する( GetSelection() );
 		}
 
-		void UninstallSelectionPackage( object context ) {
+
+
+		/////////////////////////////////////////
+		void 選択パッケージをアンインストール指定する( object context ) {
 			var ids = (IList<int>) context;
 			foreach( var id in ids ) {
 				var item = FindItem( id );
 
-				m_registerItems.Remove( item );
+				m_root.children.Remove( item );
 				ManifestJsonUtils.RemovePackage( item.name );
 
 				var undo = Utils.PopInstallItem( item );
@@ -114,11 +123,11 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 
+		/////////////////////////////////////////
 		protected override void OnRowGUI( RowGUIArgs args ) {
-			var item = (PackageItem) args.item;
-			var labelStyle = /*args.selected ? EditorStyles.whiteLabel :*/ EditorStyles.label;
+			var item = (PackageTreeItem) args.item;
 
-			EditorGUI.LabelField( args.rowRect, EditorHelper.TempContent( $"{item.displayName}", item.icon ), labelStyle );
+			Label( args, args.rowRect, $"{item.displayName}", item.icon );
 
 			if( item.install ) {
 				GUI.DrawTexture( args.rowRect.AlignR( 16 ), EditorIcon.warning );
@@ -134,9 +143,6 @@ namespace HananokiEditor.ManifestJsonUtility {
 			HEditorStyles.versionLabel.normal.textColor = SharedModule.SettingsEditor.i.versionTextColor;
 			GUI.Label( lrc, $"{item.version}", HEditorStyles.versionLabel );
 		}
-
-
 	}
-
 }
 

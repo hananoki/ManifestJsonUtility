@@ -1,80 +1,96 @@
-﻿
-using HananokiEditor.Extensions;
+﻿using HananokiEditor.Extensions;
+using HananokiRuntime;
 using UnityEditor;
 using UnityEngine;
-
 using SS = HananokiEditor.SharedModule.S;
 
-namespace HananokiEditor.ManifestJsonUtility {
 
+namespace HananokiEditor.ManifestJsonUtility {
 
 	public class ManifestJsonUtilityWindow : HEditorWindow {
 
 		TreeViewL m_treeViewL;
 		TreeViewR m_treeViewR;
 
+		InstallType m_installType;
 
 		[MenuItem( "Window/Hananoki/" + Package.nameNicify, false, 130 )]
 		static void Open() {
-			GetWindow<ManifestJsonUtilityWindow>( );
+			GetWindow<ManifestJsonUtilityWindow>();
 		}
 
 
+		/////////////////////////////////////////
 		void Refresh() {
 			BuiltinPackage.dic = null;
 			PackageCache.dic = null;
 			PackageUser.dic = null;
 
-			m_treeViewL = new TreeViewL();
+			Helper.New( ref m_treeViewL );
 			m_treeViewL.RegisterFiles();
 			m_treeViewL.ExpandAll();
 
-			m_treeViewR = new TreeViewR();
-			m_treeViewR.RegisterFiles();
+			Helper.New( ref m_treeViewR );
+			m_treeViewR.RegisterFiles( m_installType );
 			m_treeViewR.ExpandAll();
 
 			Utils.ClearItems();
 		}
 
 
+
+		/////////////////////////////////////////
 		void OnEnable() {
 			SetTitle( Package.nameNicify );
 			Refresh();
-
 		}
 
 
+
+		/////////////////////////////////////////
+		void DrawToolBar() {
+			HGUIToolbar.Begin();
+			if( HGUIToolbar.Button( EditorHelper.TempContent( EditorIcon.settings ) ) ) {
+				SharedModule.SettingsWindow.OpenEditor( Package.nameNicify );
+			}
+
+			if( HGUIToolbar.Button( EditorHelper.TempContent( EditorIcon.refresh ) ) ) {
+				Refresh();
+			}
+
+			GUILayout.FlexibleSpace();
+			HGUIToolbar.End();
+		}
+
+
+
+		/////////////////////////////////////////
 		void DrawLeftPane() {
-			var styp = new GUIStyle( "Toolbar" );
-			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
-
-			ScopeHorizontal.Begin();
+			ScopeHorizontal.Begin( EditorStyles.toolbar );
 			EditorGUILayout.LabelField( "manifest.json" );
-			//GUILayout.FlexibleSpace();
-			//GUILayout.Button( "aaa" );
+			GUILayout.FlexibleSpace();
+			if( HGUIToolbar.Button( EditorHelper.TempContent( SS._Apply ) ) ) {
+				Utils.ApplyModifyList();
+				ManifestJsonUtils.Save();
+			}
 			ScopeHorizontal.End();
-			//var a = GUILayoutUtility.GetLastRect();
-			//var rc = a;
-			//rc.x = ( a.x + a.width ) - 40;
-			//rc.width = 40;
-			//rc = rc.AlignCenterH( EditorGUIUtility.singleLineHeight );
-			//EditorGUI.DrawRect( rc, new Color( 0, 0, 1, 0.1f ) );
-			//GUI.Button( rc, "aaa", "Badge" );
-			GUILayout.Box( "", HEditorStyles.treeViweArea, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
-
-			var dropRc = GUILayoutUtility.GetLastRect();
-
-			m_treeViewL.OnGUI( dropRc );
+			m_treeViewL.DrawLayoutGUI();
 		}
 
 
 
+		/////////////////////////////////////////
 		void DrawRightPane() {
-			var styp = new GUIStyle( "Toolbar" );
-			//styp.fixedHeight = EditorGUIUtility.singleLineHeight;
-			ScopeHorizontal.Begin( styp );
-			EditorGUILayout.LabelField( S._Installablepackages );
-			ScopeHorizontal.End();
+			HGUIToolbar.Begin();
+			if( HGUIToolbar.Toggle( m_installType == InstallType.通常, S._Installablepackages ) ) {
+				m_installType = InstallType.通常;
+				m_treeViewR.RegisterFiles( m_installType );
+			}
+			if( HGUIToolbar.Toggle( m_installType == InstallType.データベースに直インストール, S._Unitypackage ) ) {
+				m_installType = InstallType.データベースに直インストール;
+				m_treeViewR.RegisterFiles( m_installType );
+			}
+			HGUIToolbar.End();
 
 			GUILayout.Box( "", HEditorStyles.treeViweArea, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 
@@ -85,55 +101,49 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 
-		void DrawToolBar() {
-			ScopeHorizontal.Begin( EditorStyles.toolbar );
-			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.settings ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
-//#if ENABLE_HANANOKI_SETTINGS
-				SharedModule.SettingsWindow.OpenEditor( Package.nameNicify );
-//#else
-//				SettingsEditorWindow.Open();
-//#endif
-			}
-			if( GUILayout.Button( EditorHelper.TempContent( EditorIcon.refresh ), EditorStyles.toolbarButton, GUILayout.Width( 26 ) ) ) {
-				Refresh();
-			}
-			if( GUILayout.Button( EditorHelper.TempContent( SS._Apply ), EditorStyles.toolbarButton ) ) {
-				Utils.ApplyModifyList();
-				ManifestJsonUtils.Save();
-			}
-			GUILayout.FlexibleSpace();
-			ScopeHorizontal.End();
-		}
 
 
+		/////////////////////////////////////////
 		public override void OnDefaultGUI() {
-			using( new IsCompilingDisableScope() ) {
-				DrawToolBar();
+			ScopeIsCompile.Begin();
 
-				GUILayout.BeginHorizontal();
-				using( new GUILayout.VerticalScope() ) {
-					DrawLeftPane();
-				}
-				using( new GUILayout.VerticalScope( HEditorStyles.dopesheetBackground, GUILayout.Width( 40 ) ) ) {
-					GUILayout.FlexibleSpace();
-					using( new EditorGUI.DisabledGroupScope( !m_treeViewL.HasSelection() ) ) {
-						if( GUILayout.Button( ">>" ) ) {
-							m_treeViewL.UninstallSelectionPackage();
-						}
-					}
-					GUILayout.Space( 16 );
-					using( new EditorGUI.DisabledGroupScope( !m_treeViewR.HasSelection() ) ) {
-						if( GUILayout.Button( "<<" ) ) {
-							m_treeViewR.InstallSelectionPackage();
-						}
-					}
-					GUILayout.FlexibleSpace();
-				}
-				using( new GUILayout.VerticalScope( HEditorStyles.dopesheetBackground ) ) {
-					DrawRightPane();
-				}
-				GUILayout.EndHorizontal();
+			DrawToolBar();
+
+			var ww = ( position.width - 40 ) * 0.5f;
+			ScopeHorizontal.Begin();
+
+			/////////////////////////////////////////
+			ScopeVertical.Begin( GUILayout.Width( ww ) );
+			DrawLeftPane();
+			ScopeVertical.End();
+
+			/////////////////////////////////////////
+			ScopeVertical.Begin( HEditorStyles.dopesheetBackground, GUILayout.Width( 40 ) );
+			GUILayout.FlexibleSpace();
+
+			ScopeDisable.Begin( !m_treeViewL.HasSelection() );
+			if( GUILayout.Button( ">>" ) ) {
+				m_treeViewL.選択パッケージをアンインストール指定する();
 			}
+			ScopeDisable.End();
+
+			GUILayout.Space( 16 );
+			ScopeDisable.Begin( !m_treeViewR.HasSelection() );
+			if( GUILayout.Button( "<<" ) ) {
+				m_treeViewR.選択パッケージをインストール指定する();
+			}
+			ScopeDisable.End();
+
+			GUILayout.FlexibleSpace();
+			ScopeVertical.End();
+
+			/////////////////////////////////////////
+			ScopeVertical.Begin( HEditorStyles.dopesheetBackground, GUILayout.Width( ww ) );
+			DrawRightPane();
+			ScopeVertical.End();
+
+			ScopeHorizontal.End();
+			ScopeIsCompile.End();
 		}
 	}
 }

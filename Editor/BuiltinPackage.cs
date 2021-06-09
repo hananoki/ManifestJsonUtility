@@ -1,10 +1,8 @@
-﻿
-using HananokiRuntime.Extensions;
+﻿using HananokiRuntime.Extensions;
 using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
-
 using E = HananokiEditor.ManifestJsonUtility.SettingsEditor;
 
 
@@ -23,7 +21,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 				}
 			}
 			if( dic.Contains( packageName ) ) {
-				info.displayName = ((PackageJson) dic[ packageName ]).displayName;
+				info.displayName = ( (PackageJson) dic[ packageName ] ).displayName;
 				info.version = ( (PackageJson) dic[ packageName ] ).version;
 				return true;
 			}
@@ -50,7 +48,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 			if( dic.Contains( packageName ) ) {
 				info.displayName = ( (PackageJson) dic[ packageName ] ).displayName;
 				info.version = ( (PackageJson) dic[ packageName ] ).version;
-				if( info.version .StartsWith("http")) {
+				if( info.version.StartsWith( "http" ) ) {
 					info.version = "URL";
 				}
 				return true;
@@ -94,9 +92,5 @@ namespace HananokiEditor.ManifestJsonUtility {
 			return false;
 		}
 	}
-
-	
-
-	
 
 }

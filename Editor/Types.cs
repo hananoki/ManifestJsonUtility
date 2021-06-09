@@ -11,13 +11,15 @@ namespace HananokiEditor.ManifestJsonUtility {
 		public string version;
 	}
 
-	public class PackageItem : TreeViewItem {
+	public class PackageTreeItem : TreeViewItem {
 		public string name;
 		public string value;
 		public bool install;
 		public bool uninstall;
 		public string version;
+		public InstallType installType;
 	}
+
 
 	public enum PackageMode {
 		Builtin,
@@ -25,5 +27,9 @@ namespace HananokiEditor.ManifestJsonUtility {
 		User,
 	}
 
+	public enum InstallType {
+		通常,
+		データベースに直インストール,
+	}
 
 }
