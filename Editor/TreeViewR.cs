@@ -143,7 +143,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 		/////////////////////////////////////////
-		protected override void OnContextClickedItem( int id ) {
+		protected override void OnContextClickedItem( PackageTreeItem item ) {
 			var ev = Event.current;
 			var pos = ev.mousePosition;
 
@@ -151,7 +151,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 			m.AddItem( SS._Install, () => {
 				//選択パッケージをインストール指定する();
-				PackageDatabaseUtils.InstallFromUrl( ToItem( id ).value );
+				PackageDatabaseUtils.InstallFromUrl( item.value );
 			} );
 
 			m.DropDownAtMousePosition();
@@ -170,7 +170,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 		void 選択パッケージをインストール指定する( IList<int> ids ) {
 
 			foreach( var id in ids ) {
-				var item = FindItem( id );
+				var item = ToItem( id );
 
 				m_root.children.Remove( item );
 				if( item.installType == InstallType.通常 ) {
@@ -192,8 +192,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 		/////////////////////////////////////////
-		protected override void OnRowGUI( RowGUIArgs args ) {
-			var item = (PackageTreeItem) args.item;
+		protected override void OnRowGUI( PackageTreeItem item, RowGUIArgs args ) {
 
 			ScopeDisable.Begin( item.install );
 			Label( args, args.rowRect, $"{item.displayName}", item.icon );

@@ -77,7 +77,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 		/////////////////////////////////////////
-		protected override void OnContextClickedItem( int id ) {
+		protected override void OnContextClickedItem( PackageTreeItem item ) {
 			var ev = Event.current;
 			var pos = ev.mousePosition;
 
@@ -103,7 +103,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 		void 選択パッケージをアンインストール指定する( object context ) {
 			var ids = (IList<int>) context;
 			foreach( var id in ids ) {
-				var item = FindItem( id );
+				var item = ToItem( id );
 
 				m_root.children.Remove( item );
 				ManifestJsonUtils.RemovePackage( item.name );
@@ -124,8 +124,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 
 		/////////////////////////////////////////
-		protected override void OnRowGUI( RowGUIArgs args ) {
-			var item = (PackageTreeItem) args.item;
+		protected override void OnRowGUI( PackageTreeItem item, RowGUIArgs args ) {
 
 			Label( args, args.rowRect, $"{item.displayName}", item.icon );
 

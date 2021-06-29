@@ -1,7 +1,13 @@
 # Manifest Json Utility
 
+## [0.6.1] - 2021-06-30
+- `SharedModule v1.11.0` or later
+
+### Fixed
+- Fixed a mistake in getting the display name of `PackageJson.displayName`
+
 ## [0.6.0] - 2021-06-09
-- `SharedModule` v1.9.0 or later
+- `SharedModule v1.9.0` or later
 
 ### Added
 - Added the ability to install packages that are not visible in UPM

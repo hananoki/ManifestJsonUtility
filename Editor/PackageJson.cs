@@ -20,8 +20,15 @@ namespace HananokiEditor.ManifestJsonUtility {
 		}
 
 
-		public string name        => (string) m_data[ "name" ];
-		public string displayName => (string) m_data[ "displayName" ];
+		public string name => (string) m_data[ "name" ];
+		public string displayName {
+			get {
+				// com.unity.adsとかdisplayNameが無い奴がある
+				object result ="";
+				if( m_data.TryGetValue( "displayName", out result ) ) return (string) result;
+				return name;
+			}
+		}
 		public string version     => (string) m_data[ "version" ];
 		public string unity       => (string) m_data[ "unity" ];
 		public string description => (string) m_data[ "description" ];

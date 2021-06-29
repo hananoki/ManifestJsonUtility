@@ -14,7 +14,7 @@ namespace HananokiEditor.ManifestJsonUtility {
 
 		InstallType m_installType;
 
-		[MenuItem( "Window/Hananoki/" + Package.nameNicify, false, 130 )]
+		[MenuItem( "Window/Hananoki/" + Package.nameNicify, false, 'M' * 10 )]
 		static void Open() {
 			GetWindow<ManifestJsonUtilityWindow>();
 		}
